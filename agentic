@@ -1,0 +1,25 @@
+#!/usr/bin/env python3
+
+import sys
+from tokenizer import tokenize
+from parser import parse
+from interpreter import evaluate
+
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print("Verwendung: python main.py <filename>.ai")
+        sys.exit(1)
+
+    filename = sys.argv[1]
+    if not filename.endswith('.ai'):
+        print("Fehler: Die Datei muss die Endung .ai haben.")
+        sys.exit(1)
+
+    try:
+        with open(filename, 'r') as f:
+            code = f.read()
+        tokens = tokenize(code)
+        ast = parse(tokens)
+        evaluate(ast)
+    except Exception as e:
+        print(f"Fehler: {e}")
